@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design system — premium govtech
+   Palette refined from the Venezuelan tricolor:
+   deep institutional blue / desaturated gold / restrained red,
+   on a warm paper canvas. Glass surfaces, soft light.
+   ============================================================ */
+
+/* NB International Pro — superpower.com's grotesk. Licensed commercial font;
+   the .woff2 files are NOT committed (see public/fonts/README.md). If absent,
+   the stack falls back to Helvetica Neue without breaking the build. */
+@font-face {
+  font-family: "NB International Pro";
+  src: url(/fonts/nbint-regular.woff2) format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NB International Pro";
+  src: url(/fonts/nbint-bold.woff2) format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NB International Mono";
+  src: url(/fonts/nbint-mono.woff2) format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+/* NB's webfont subset has a broken "$" glyph (renders as "#"). Pull only
+   U+0024 from a system font; everything else stays NB. */
+@font-face {
+  font-family: "DollarFix";
+  src: local("Helvetica Neue"), local("Arial"), local("Helvetica");
+  unicode-range: U+0024;
+}
+
+@theme {
+  --font-sans: "DollarFix", "NB International Pro", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "DollarFix", "NB International Pro", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "DollarFix", "NB International Mono", ui-monospace, "SF Mono", monospace;
+
+  /* canvas */
+  --color-paper: #f8f7f3;
+  --color-paper-deep: #f1efe8;
+  --color-ink: #0c1428;
+  --color-ink-soft: #2b3650;
+  --color-muted: #6b7488;
+  --color-line: #e4e1d7;
+  --color-line-strong: #d6d2c5;
+
+  /* brand — desaturated tricolor */
+  --color-azul: #16367a;
+  --color-azul-deep: #0d2456;
+  --color-azul-bright: #2a55c7;
+  --color-oro: #c79a3a;
+  --color-oro-soft: #e8c976;
+  --color-rojo: #b3122d;
+
+  /* semantic */
+  --color-surface: #ffffff;
+  --color-success: #1d7a52;
+  --color-warning: #b06d12;
+  --color-danger: #b3122d;
+
+  --radius-card: 20px;
+  --shadow-soft: 0 1px 2px rgba(12, 20, 40, 0.04), 0 8px 24px -12px rgba(12, 20, 40, 0.18);
+  --shadow-lift: 0 2px 4px rgba(12, 20, 40, 0.05), 0 24px 48px -20px rgba(12, 20, 40, 0.28);
+}
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- ambient canvas ---------------------------------------- */
+.ambient { position: relative; isolation: isolate; }
+.ambient::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60rem 40rem at 12% -8%, rgba(42, 85, 199, 0.10), transparent 60%),
+    radial-gradient(50rem 36rem at 92% 4%, rgba(199, 154, 58, 0.12), transparent 58%),
+    radial-gradient(70rem 50rem at 50% 120%, rgba(22, 54, 122, 0.07), transparent 60%);
+  pointer-events: none;
+}
+
+/* ---- glass surfaces ---------------------------------------- */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow-soft);
+}
+.glass-deep {
+  background: linear-gradient(160deg, rgba(13, 36, 86, 0.96), rgba(22, 54, 122, 0.92));
+  color: #f4f6fb;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-lift);
+}
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---- type — NB International, superpower-tight --------------- */
+.font-display { font-family: var(--font-display); }
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+.font-mono { font-variant-numeric: tabular-nums; }
+/* mono microlabels — the signature superpower move */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+/* tricolor hairline — signature accent */
+.tricolor-rule {
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(90deg,
+    var(--color-oro) 0 33%,
+    var(--color-azul-bright) 33% 66%,
+    var(--color-rojo) 66% 100%);
+}
+
+/* ---- focus + a11y ------------------------------------------- */
+*:focus-visible {
+  outline: 2px solid var(--color-azul-bright);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+::selection { background: rgba(199, 154, 58, 0.28); }
+
+/* ============================================================
+   trumpcard.gov idiom: cream base, black editorial bands,
+   gold-metal hero card. Official, luxe, minimal.
+   ============================================================ */
+
+.section-dark {
+  background: #0a0a0a;
+  color: #efece3;
+}
+.section-dark .eyebrow { color: rgba(239, 236, 227, 0.55); }
+
+/* huge editorial headline scale */
+.display-hero {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  text-wrap: balance;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+}
+
+/* official government banner */
+.gov-banner {
+  background: #0d2456;
+  color: #eaeef7;
+}
+
+/* gold-metal card — the centerpiece */
+.goldcard {
+  position: relative;
+  border-radius: 18px;
+  color: #3a2e12;
+  /* oversized gradient sheet; --bx/--by slide it so the diagonal sheen
+     follows the cursor */
+  background:
+    linear-gradient(125deg, #e6cb87 0%, #cda44c 24%, #b3862f 44%, #ddc176 56%, #c0953a 72%, #d6b35e 88%, #b78d36 100%);
+  background-size: 220% 220%;
+  background-position: calc(var(--bx, 50) * 1%) calc(var(--by, 50) * 1%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 22px 45px -26px rgba(70, 52, 12, 0.6);
+  border: 1px solid rgba(180, 140, 50, 0.45);
+}
+.gold-emboss { color: #6b521e; text-shadow: 0 1px 0 rgba(255, 250, 230, 0.6); }
+
+/* ---- NOX-style skew parallax (CSS-var transform, CSS-eased) ----
+   Pointer writes --rx/--ry; a registered-property transition
+   does the smoothing. --rxi/--ryi drift idly so the card never sits dead. */
+@property --rx  { syntax: "<number>"; initial-value: 0;   inherits: false; }
+@property --ry  { syntax: "<number>"; initial-value: 0;   inherits: false; }
+@property --rxi { syntax: "<number>"; initial-value: 0;   inherits: false; }
+@property --ryi { syntax: "<number>"; initial-value: 0;   inherits: false; }
+@property --bx  { syntax: "<number>"; initial-value: 50;  inherits: false; }
+@property --by  { syntax: "<number>"; initial-value: 50;  inherits: false; }
+
+.card-stage { perspective: 1400px; }
+
+.mcard-tilt {
+  transform:
+    rotateX(calc((var(--rx) + var(--rxi)) * 1deg))
+    rotateY(calc((var(--ry) + var(--ryi)) * 1deg));
+  transform-style: preserve-3d;
+  transition:
+    --rx 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    --ry 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    --bx 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    --by 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  animation: idle-drift 16s ease-in-out infinite;
+}
+@keyframes idle-drift {
+  0%   { --rxi: -0.7; --ryi: -1.1; }
+  25%  { --rxi:  0.6; --ryi: -0.4; }
+  50%  { --rxi:  0.9; --ryi:  1.1; }
+  75%  { --rxi: -0.4; --ryi:  0.6; }
+  100% { --rxi: -0.7; --ryi: -1.1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mcard-tilt { animation: none; }
+}
